@@ -1,5 +1,8 @@
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 public abstract class Conta implements ContaInterface{
     private static final int AGENCIA_PADRAO = 1;
@@ -9,13 +12,15 @@ public abstract class Conta implements ContaInterface{
     protected int numero;
     protected double saldo;
     protected Cliente cliente;
+    protected List<Cliente> clientes;
 
     public Conta(Cliente cliente) {
         this.agencia = AGENCIA_PADRAO;
         this.numero = SEQUENCIAL++;
         this.cliente = cliente;
+        this.clientes = new ArrayList<>();
+        this.clientes.add(cliente);
     }
-
     @Override
     public void sacar(double valor) {
         saldo -= valor;
@@ -31,11 +36,11 @@ public abstract class Conta implements ContaInterface{
         this.sacar(valor);
         contaDestino.depositar(valor);
     }
-
     protected void imprimirInfosComuns(){
         System.out.println(String.format("Titular: %s", this.cliente.getNome()));
         System.out.println(String.format("Agencia: %d", this.agencia));
         System.out.println(String.format("Numero: %d", this.numero));
         System.out.println(String.format("Saldo: %.2f", this.saldo));
     }
+
 }
